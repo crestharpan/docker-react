@@ -15,6 +15,9 @@ FROM nginx
 
 #copying the build folder from /usr/app to nginx
 COPY --from=0 /usr/app/build /usr/share/nginx/html  
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+COPY default.conf.template /etc/nginx/conf.d/default.conf.template
+
+CMD envsubst '$PORT' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'
+
 
 
