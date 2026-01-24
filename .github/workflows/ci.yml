@@ -34,3 +34,10 @@ jobs:
 
       - name: Docker build check
         run: docker build -t react-ci .
+
+      - name: Trigger Render Deploy
+        if: success()
+        run: |
+          curl -X POST "$RENDER_DEPLOY_HOOK"
+        env:
+          RENDER_DEPLOY_HOOK: ${{secrets.RENDER_DEPLOY_HOOK}}
